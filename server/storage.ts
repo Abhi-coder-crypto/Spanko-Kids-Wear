@@ -1,37 +1,90 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import {
+  products,
+  categories,
+  type Product,
+  type Category,
+  type InsertProduct,
+  type InsertCategory
+} from "@shared/schema";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getProducts(filters?: { category?: string; isNew?: boolean; isTrending?: boolean; hasDeal?: boolean }): Promise<Product[]>;
+  getProduct(id: number): Promise<Product | undefined>;
+  getCategories(): Promise<Category[]>;
+  createCategory(category: InsertCategory): Promise<Category>;
+  createProduct(product: InsertProduct): Promise<Product>;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+  private products: Map<number, Product>;
+  private categories: Map<number, Category>;
+  private productIdCounter: number;
+  private categoryIdCounter: number;
 
   constructor() {
-    this.users = new Map();
+    this.products = new Map();
+    this.categories = new Map();
+    this.productIdCounter = 1;
+    this.categoryIdCounter = 1;
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getProducts(filters?: { category?: string; isNew?: boolean; isTrending?: boolean; hasDeal?: boolean }): Promise<Product[]> {
+    let allProducts = Array.from(this.products.values());
+
+    if (filters) {
+      if (filters.category) {
+        // Simple filtering by category ID if passed as string number, or could implementation slug lookup if needed.
+        // For now, assuming standard filtering logic or just returning all if complexity is high for MemStorage without specific requirements.
+        // Let's implement basics:
+        const catId = parseInt(filters.category);
+        if (!isNaN(catId)) {
+          allProducts = allProducts.filter(p => p.categoryId === catId);
+        }
+      }
+      if (filters.isNew) {
+        allProducts = allProducts.filter(p => p.isNew);
+      }
+      if (filters.isTrending) {
+        allProducts = allProducts.filter(p => p.isTrending);
+      }
+      if (filters.hasDeal) {
+        allProducts = allProducts.filter(p => p.originalPrice !== null);
+      }
+    }
+
+    return allProducts.sort((a, b) => {
+      // Sort by ID descending as a proxy for created at
+      return b.id - a.id;
+    });
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async getProduct(id: number): Promise<Product | undefined> {
+    return this.products.get(id);
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async getCategories(): Promise<Category[]> {
+    return Array.from(this.categories.values());
+  }
+
+  async createCategory(category: InsertCategory): Promise<Category> {
+    const id = this.categoryIdCounter++;
+    const newCategory: Category = { ...category, id };
+    this.categories.set(id, newCategory);
+    return newCategory;
+  }
+
+  async createProduct(product: InsertProduct): Promise<Product> {
+    const id = this.productIdCounter++;
+    const newProduct: Product = { 
+      ...product, 
+      id, 
+      createdAt: new Date(),
+      isNew: product.isNew ?? false,
+      isTrending: product.isTrending ?? false,
+      originalPrice: product.originalPrice ?? null
+    };
+    this.products.set(id, newProduct);
+    return newProduct;
   }
 }
 
