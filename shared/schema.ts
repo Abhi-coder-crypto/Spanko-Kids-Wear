@@ -7,6 +7,7 @@ export const categories = pgTable("categories", {
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
   image: text("image").notNull(),
+  parentId: integer("parent_id"), // For nesting: Category -> Subcategory -> Type
 });
 
 export const products = pgTable("products", {
@@ -14,7 +15,7 @@ export const products = pgTable("products", {
   name: text("name").notNull(),
   description: text("description").notNull(),
   price: numeric("price").notNull(),
-  originalPrice: numeric("original_price"), // For deals
+  originalPrice: numeric("original_price"),
   image: text("image").notNull(),
   categoryId: integer("category_id").references(() => categories.id).notNull(),
   isNew: boolean("is_new").default(false),
@@ -30,5 +31,4 @@ export type Product = typeof products.$inferSelect;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
 export type InsertProduct = z.infer<typeof insertProductSchema>;
 
-// API Types
 export type ProductResponse = Product & { category?: Category };
