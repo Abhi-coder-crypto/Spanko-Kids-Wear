@@ -19,32 +19,30 @@ export default function Home() {
 
       <main className="flex-1">
         {/* HERO SECTION */}
-        <section className="relative h-[550px] w-full overflow-hidden bg-[#f8f9fb]">
+        <section className="relative h-[600px] w-full overflow-hidden bg-[#f8f9fb]">
           <div className="container mx-auto px-4 h-full relative flex items-center">
             {/* Background Image / Promo Content */}
-            <div className="absolute right-0 top-0 h-full w-full md:w-3/5 overflow-hidden">
+            <div className="absolute right-0 top-0 h-full w-full md:w-1/2 overflow-hidden">
                <img 
-                src="https://images.unsplash.com/photo-1596464716127-f9a0859b4bce?q=80&w=2070&auto=format&fit=crop"
-                alt="Winnie the Pooh Collection"
+                src="/src/assets/hero-right.jpg"
+                alt="Spanko Collection"
                 className="h-full w-full object-cover object-center opacity-90"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#f8f9fb] via-[#f8f9fb]/40 to-transparent md:block hidden" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#f8f9fb] via-[#f8f9fb]/20 to-transparent md:block hidden" />
             </div>
 
             <div className="relative z-10 max-w-xl space-y-6 md:text-left text-center">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Disney_wordmark.svg/1200px-Disney_wordmark.svg.png" alt="Disney" className="h-6 mx-auto md:ml-0 opacity-70" />
-              <h1 className="text-6xl md:text-8xl font-display text-[#002b5c] leading-[0.9] tracking-tighter">
-                Winnie <br />
-                <span className="text-4xl md:text-5xl block mt-2 text-slate-600 font-sans font-normal italic">the</span>
-                Pooh
+              <h1 className="text-7xl md:text-9xl font-display text-[#002b5c] leading-[0.85] tracking-tighter">
+                spanko <br />
+                <span className="text-4xl md:text-5xl block mt-2 text-primary font-sans font-bold uppercase tracking-widest italic">Nice One</span>
               </h1>
               <p className="text-lg md:text-xl text-slate-700 font-medium max-w-md">
-                Just dropped! Two iconic brands came together to celebrate timeless style & storybook charm.
+                Experience the ultimate comfort and style with our newest collection. Designed for the little explorers of today.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center md:justify-start">
                 <Link href="/shop">
-                  <Button size="lg" className="rounded-md px-10 text-md font-bold h-12 bg-white text-slate-900 border border-slate-200 hover:bg-slate-50 shadow-sm transition-all uppercase tracking-widest">
-                    Shop the Collection
+                  <Button size="lg" className="rounded-md px-10 text-md font-bold h-12 bg-primary text-white hover:bg-primary/90 shadow-lg transition-all uppercase tracking-widest">
+                    Shop Now
                   </Button>
                 </Link>
               </div>
@@ -53,58 +51,46 @@ export default function Home() {
         </section>
 
         {/* CATEGORIES SECTION */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-display mb-4">Shop by Category</h2>
-              <p className="text-muted-foreground">Find the perfect fit for your little ones</p>
-            </div>
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-4xl md:text-5xl font-display mb-4">Shop by Category</h2>
+            <p className="text-slate-500 mb-16 max-w-lg mx-auto">Find the perfect fit for your little ones with our curated selections</p>
 
-            <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-y-12 gap-x-8">
               {isCategoriesLoading ? (
-                Array(4).fill(0).map((_, i) => (
-                  <div key={i} className="flex flex-col items-center gap-3">
-                    <Skeleton className="h-36 w-36 rounded-full" />
-                    <Skeleton className="h-6 w-24" />
+                Array(7).fill(0).map((_, i) => (
+                  <div key={i} className="flex flex-col items-center gap-4">
+                    <Skeleton className="h-32 w-32 rounded-full" />
+                    <Skeleton className="h-4 w-20" />
                   </div>
                 ))
               ) : categories?.length ? (
-                categories.map((cat, i) => (
-                  <CategoryCircle 
-                    key={cat.id}
-                    name={cat.name}
-                    slug={cat.slug}
-                    image={cat.image}
-                    color={i % 2 === 0 ? "bg-blue-100" : "bg-pink-100"}
-                  />
+                categories.map((cat) => (
+                  <Link key={cat.id} href={`/category/${cat.slug}`} className="group flex flex-col items-center">
+                    <div className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-white shadow-xl group-hover:scale-105 transition-transform duration-300">
+                      <img src={cat.image} alt={cat.name} className="h-full w-full object-cover" />
+                    </div>
+                    <span className="mt-4 font-bold text-slate-800 group-hover:text-primary transition-colors">{cat.name}</span>
+                  </Link>
                 ))
               ) : (
-                // Fallback hardcoded categories if DB is empty
                 <>
-                  <CategoryCircle 
-                    name="Baby Girl" 
-                    slug="baby-girl" 
-                    image="https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500&auto=format&fit=crop" 
-                    color="bg-pink-100"
-                  />
-                  <CategoryCircle 
-                    name="Baby Boy" 
-                    slug="baby-boy" 
-                    image="https://images.unsplash.com/photo-1522771753035-4a504711a13d?w=500&auto=format&fit=crop" 
-                    color="bg-blue-100"
-                  />
-                  <CategoryCircle 
-                    name="Toddler" 
-                    slug="toddler" 
-                    image="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500&auto=format&fit=crop" 
-                    color="bg-yellow-100"
-                  />
-                  <CategoryCircle 
-                    name="Kids" 
-                    slug="kids" 
-                    image="https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?w=500&auto=format&fit=crop" 
-                    color="bg-green-100"
-                  />
+                  {[
+                    { name: "Baby", slug: "baby", img: "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500" },
+                    { name: "Toddler", slug: "toddler", img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500" },
+                    { name: "Kids", slug: "kids", img: "https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?w=500" },
+                    { name: "Baby Girl", slug: "baby-girl", img: "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500" },
+                    { name: "Baby Boy", slug: "baby-boy", img: "https://images.unsplash.com/photo-1522771753035-4a504711a13d?w=500" },
+                    { name: "Baby Neutral", slug: "baby-neutral", img: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=500" },
+                    { name: "Pajamas", slug: "pajamas", img: "https://images.unsplash.com/photo-1555009393-f20bdb245c4d?w=500" }
+                  ].map((cat) => (
+                    <Link key={cat.slug} href={`/category/${cat.slug}`} className="group flex flex-col items-center">
+                      <div className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-white shadow-xl group-hover:scale-105 transition-transform duration-300">
+                        <img src={cat.img} alt={cat.name} className="h-full w-full object-cover" />
+                      </div>
+                      <span className="mt-4 font-bold text-slate-800 group-hover:text-primary transition-colors">{cat.name}</span>
+                    </Link>
+                  ))}
                 </>
               )}
             </div>

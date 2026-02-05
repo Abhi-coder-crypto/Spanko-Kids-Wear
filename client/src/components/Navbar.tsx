@@ -29,14 +29,13 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Trending", href: "/shop?filter=trending" },
-    { name: "Brands", href: "/shop?filter=brands" },
-    { name: "Deals", href: "/shop?filter=deals" },
+    { name: "Deals", href: "/deals" },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border/40">
       <div className="bg-[#002b5c] px-4 py-2 text-center text-[10px] font-bold text-white uppercase tracking-widest md:text-xs">
-        New! Disney© Winnie the Pooh x OshKosh B'gosh® 🧸
+        NEW! SPANKO x BABY COMFORT® 🧸
       </div>
 
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
@@ -88,7 +87,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
           <span className="font-display text-3xl font-bold tracking-tight text-[#00a9e0] hover:opacity-90 transition-opacity">
-            carter's
+            spanko
           </span>
         </Link>
 
