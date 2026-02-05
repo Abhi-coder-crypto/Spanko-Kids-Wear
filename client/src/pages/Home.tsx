@@ -31,17 +31,21 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-r from-[#f8f9fb] via-[#f8f9fb]/20 to-transparent md:block hidden" />
             </div>
 
-            <div className="relative z-10 max-w-xl space-y-6 md:text-left text-center">
-              <h1 className="text-7xl md:text-9xl font-display text-[#002b5c] leading-[0.85] tracking-tighter">
-                spanko <br />
-                <span className="text-4xl md:text-5xl block mt-2 text-primary font-sans font-bold uppercase tracking-widest italic">Nice One</span>
-              </h1>
-              <p className="text-lg md:text-xl text-slate-700 font-medium max-w-md">
+            <div className="relative z-10 max-w-2xl space-y-8 md:text-left text-center">
+              <div className="space-y-[-1rem]">
+                <h1 className="text-8xl md:text-[11rem] font-display text-[#002b5c] leading-[0.7] tracking-tighter drop-shadow-xl animate-in fade-in slide-in-from-left-8 duration-700">
+                  spanko
+                </h1>
+                <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-[0.2em] text-[#ec4899] leading-none ml-2 drop-shadow-md animate-in fade-in slide-in-from-left-12 duration-1000">
+                  Nice One
+                </h2>
+              </div>
+              <p className="text-xl md:text-2xl text-slate-700 font-medium max-w-md leading-relaxed opacity-90 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
                 Experience the ultimate comfort and style with our newest collection. Designed for the little explorers of today.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center md:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center md:justify-start animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
                 <Link href="/shop">
-                  <Button size="lg" className="rounded-md px-10 text-md font-bold h-12 bg-primary text-white hover:bg-primary/90 shadow-lg transition-all uppercase tracking-widest">
+                  <Button size="lg" className="rounded-full px-12 text-lg font-black h-14 bg-[#002b5c] text-white hover:bg-[#001a3d] shadow-[0_10px_30px_rgba(0,43,92,0.3)] hover:scale-105 active:scale-95 transition-all uppercase tracking-widest">
                     Shop Now
                   </Button>
                 </Link>
@@ -76,13 +80,13 @@ export default function Home() {
               ) : (
                 <>
                   {[
-                    { name: "Baby", slug: "baby", img: "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500" },
-                    { name: "Toddler", slug: "toddler", img: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500" },
-                    { name: "Kids", slug: "kids", img: "https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?w=500" },
-                    { name: "Baby Girl", slug: "baby-girl", img: "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500" },
-                    { name: "Baby Boy", slug: "baby-boy", img: "https://images.unsplash.com/photo-1522771753035-4a504711a13d?w=500" },
+                    { name: "Baby", slug: "baby", img: "/src/assets/categories/baby.jpg" },
+                    { name: "Toddler", slug: "toddler", img: "/src/assets/categories/toddler.jpg" },
+                    { name: "Kids", slug: "kids", img: "/src/assets/categories/kids.jpg" },
+                    { name: "Baby Girl", slug: "baby-girl", img: "/src/assets/categories/baby-girl.jpg" },
+                    { name: "Baby Boy", slug: "baby-boy", img: "/src/assets/categories/baby-boy.jpg" },
                     { name: "Baby Neutral", slug: "baby-neutral", img: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=500" },
-                    { name: "Pajamas", slug: "pajamas", img: "https://images.unsplash.com/photo-1555009393-f20bdb245c4d?w=500" }
+                    { name: "Pajamas", slug: "pajamas", img: "/src/assets/categories/pajamas.jpg" }
                   ].map((cat) => (
                     <Link key={cat.slug} href={`/category/${cat.slug}`} className="group flex flex-col items-center">
                       <div className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-white shadow-xl group-hover:scale-105 transition-transform duration-300">
@@ -191,24 +195,24 @@ export default function Home() {
         </section>
 
         {/* NEWSLETTER BANNER */}
-        <section className="py-24 bg-primary text-white overflow-hidden relative">
+        <section className="py-24 bg-[#3b82f6] text-white overflow-hidden relative">
           {/* Decorative circles */}
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full translate-x-1/3 translate-y-1/3" />
+          <div className="absolute top-0 left-0 w-80 h-80 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#2563eb]/30 rounded-full translate-x-1/4 translate-y-1/4 blur-3xl" />
 
-          <div className="container mx-auto px-4 relative z-10 text-center max-w-2xl">
-            <h2 className="text-4xl md:text-5xl font-display mb-6">Join the Spanko Family!</h2>
-            <p className="text-blue-100 text-lg mb-8">
-              Sign up for our newsletter and get 15% off your first order. 
-              Plus, be the first to know about new drops!
+          <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
+            <h2 className="text-5xl md:text-7xl font-display mb-8 tracking-tighter drop-shadow-md">Join the Spanko Family!</h2>
+            <p className="text-blue-50 text-xl mb-12 max-w-2xl mx-auto leading-relaxed opacity-90">
+              Sign up for our newsletter and get <span className="font-bold text-white underline decoration-[#ec4899] decoration-4 underline-offset-8">15% off</span> your first order. 
+              Be the first to know about new drops!
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto p-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl">
               <input 
                 type="email" 
                 placeholder="Enter your email address" 
-                className="flex-1 px-6 py-4 rounded-full text-slate-900 focus:outline-none focus:ring-4 focus:ring-white/30"
+                className="flex-1 px-8 py-5 rounded-full bg-white text-slate-900 focus:outline-none focus:ring-4 focus:ring-[#ec4899]/50 transition-all text-lg placeholder:text-slate-400"
               />
-              <Button size="lg" className="rounded-full px-8 py-7 text-lg bg-accent hover:bg-accent/90 text-white font-bold shadow-lg shadow-black/10">
+              <Button size="lg" className="rounded-full px-10 py-8 text-xl bg-[#ec4899] hover:bg-[#db2777] text-white font-black shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:scale-105 active:scale-95 transition-all uppercase tracking-widest">
                 Subscribe
               </Button>
             </div>

@@ -85,10 +85,15 @@ export function Navbar() {
         </div>
 
         {/* Logo */}
-        <Link href="/" className="flex-shrink-0">
-          <span className="font-display text-3xl font-bold tracking-tight text-[#00a9e0] hover:opacity-90 transition-opacity">
-            spanko
-          </span>
+        <Link href="/" className="flex-shrink-0 group">
+          <div className="flex flex-col leading-none">
+            <span className="font-display text-4xl font-black tracking-tighter text-[#002b5c] group-hover:text-primary transition-colors">
+              spanko
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary ml-1">
+              Nice One
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Nav */}

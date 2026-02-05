@@ -77,13 +77,13 @@ export default function Shop() {
                 <h3 className="font-bold mb-4">Price Range</h3>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <label className="flex items-center gap-2">
-                    <input type="checkbox" className="rounded border-gray-300" /> Under $20
+                    <input type="checkbox" className="rounded border-gray-300" /> Under ₹200
                   </label>
                   <label className="flex items-center gap-2">
-                    <input type="checkbox" className="rounded border-gray-300" /> $20 - $50
+                    <input type="checkbox" className="rounded border-gray-300" /> ₹200 - ₹500
                   </label>
                   <label className="flex items-center gap-2">
-                    <input type="checkbox" className="rounded border-gray-300" /> $50+
+                    <input type="checkbox" className="rounded border-gray-300" /> ₹500+
                   </label>
                 </div>
               </div>

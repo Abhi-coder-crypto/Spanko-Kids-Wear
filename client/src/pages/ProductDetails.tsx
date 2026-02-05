@@ -112,11 +112,11 @@ export default function ProductDetails() {
 
             <div className="flex items-end gap-3 mb-8">
               <span className="text-3xl font-bold text-primary">
-                ${product.price}
+                ₹{product.price}
               </span>
               {hasDiscount && (
                 <span className="text-xl text-muted-foreground line-through mb-1">
-                  ${product.originalPrice}
+                  ₹{product.originalPrice}
                 </span>
               )}
             </div>
@@ -182,7 +182,7 @@ export default function ProductDetails() {
             {/* Trust Badges */}
             <div className="mt-12 grid grid-cols-2 gap-4 text-sm text-muted-foreground bg-gray-50 p-6 rounded-2xl border border-border/50">
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500" /> Free Shipping over $50
+                <div className="h-2 w-2 rounded-full bg-green-500" /> Free Shipping over ₹500
               </div>
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-green-500" /> 30-Day Returns
