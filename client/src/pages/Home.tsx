@@ -19,38 +19,34 @@ export default function Home() {
 
       <main className="flex-1">
         {/* HERO SECTION */}
-        <section className="relative h-[600px] w-full overflow-hidden bg-slate-100">
-          {/* Unsplash placeholder: Kids jumping/playing joyfully */}
-          <img 
-            src="https://images.unsplash.com/photo-1596464716127-f9a0859b4bce?q=80&w=2070&auto=format&fit=crop"
-            alt="Happy kids jumping"
-            className="absolute inset-0 h-full w-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-white/80 to-transparent flex items-center">
-            <div className="container mx-auto px-4">
-              <div className="max-w-xl space-y-6 animate-in fade-in slide-in-from-left-8 duration-700">
-                <span className="inline-block px-4 py-2 rounded-full bg-accent/10 text-accent font-bold tracking-wider text-sm">
-                  NEW COLLECTION 2024
-                </span>
-                <h1 className="text-5xl md:text-7xl font-display text-slate-900 leading-tight">
-                  Play All Day <br />
-                  <span className="text-primary">In Style</span>
-                </h1>
-                <p className="text-lg text-slate-700 font-medium">
-                  Comfortable, durable, and adorable styles for every adventure.
-                </p>
-                <div className="flex gap-4 pt-4">
-                  <Link href="/shop">
-                    <Button size="lg" className="rounded-full px-8 text-lg h-14 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/30">
-                      Shop Now
-                    </Button>
-                  </Link>
-                  <Link href="/shop?filter=deals">
-                    <Button size="lg" variant="outline" className="rounded-full px-8 text-lg h-14 bg-white/80 backdrop-blur hover:bg-white border-2">
-                      View Deals
-                    </Button>
-                  </Link>
-                </div>
+        <section className="relative h-[550px] w-full overflow-hidden bg-[#f8f9fb]">
+          <div className="container mx-auto px-4 h-full relative flex items-center">
+            {/* Background Image / Promo Content */}
+            <div className="absolute right-0 top-0 h-full w-full md:w-3/5 overflow-hidden">
+               <img 
+                src="https://images.unsplash.com/photo-1596464716127-f9a0859b4bce?q=80&w=2070&auto=format&fit=crop"
+                alt="Winnie the Pooh Collection"
+                className="h-full w-full object-cover object-center opacity-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#f8f9fb] via-[#f8f9fb]/40 to-transparent md:block hidden" />
+            </div>
+
+            <div className="relative z-10 max-w-xl space-y-6 md:text-left text-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Disney_wordmark.svg/1200px-Disney_wordmark.svg.png" alt="Disney" className="h-6 mx-auto md:ml-0 opacity-70" />
+              <h1 className="text-6xl md:text-8xl font-display text-[#002b5c] leading-[0.9] tracking-tighter">
+                Winnie <br />
+                <span className="text-4xl md:text-5xl block mt-2 text-slate-600 font-sans font-normal italic">the</span>
+                Pooh
+              </h1>
+              <p className="text-lg md:text-xl text-slate-700 font-medium max-w-md">
+                Just dropped! Two iconic brands came together to celebrate timeless style & storybook charm.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center md:justify-start">
+                <Link href="/shop">
+                  <Button size="lg" className="rounded-md px-10 text-md font-bold h-12 bg-white text-slate-900 border border-slate-200 hover:bg-slate-50 shadow-sm transition-all uppercase tracking-widest">
+                    Shop the Collection
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

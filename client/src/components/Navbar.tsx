@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
-import { Search, ShoppingBag, User, Menu, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { Search, ShoppingBag, User, Menu, ChevronRight, X } from "lucide-react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useCategories } from "@/hooks/use-shop";
@@ -16,25 +16,27 @@ import {
 export function Navbar() {
   const [location] = useLocation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [activeParentId, setActiveParentId] = useState<number | null>(null);
+  const [activeSubId, setActiveSubId] = useState<number | null>(null);
   const { data: categories } = useCategories();
 
-  // Filter top-level categories (Baby, Toddler, Kids)
-  const mainCategories = categories?.filter(c => !c.parentId) || [];
+  // Categories Hierarchy
+  const mainCategories = useMemo(() => categories?.filter(c => !c.parentId) || [], [categories]);
   
-  // Get subcategories for a parent category
   const getSubcategories = (parentId: number) => {
     return categories?.filter(c => c.parentId === parentId) || [];
   };
 
   const navLinks = [
-    { name: "New & Trending", href: "/shop?filter=trending" },
+    { name: "Trending", href: "/shop?filter=trending" },
+    { name: "Brands", href: "/shop?filter=brands" },
     { name: "Deals", href: "/shop?filter=deals" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-border/40">
-      <div className="bg-primary px-4 py-2 text-center text-xs font-medium text-primary-foreground md:text-sm">
-        🎉 Free Shipping on Orders Over $50 | Shop Now & Save! 🚀
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-border/40">
+      <div className="bg-[#002b5c] px-4 py-2 text-center text-[10px] font-bold text-white uppercase tracking-widest md:text-xs">
+        New! Disney© Winnie the Pooh x OshKosh B'gosh® 🧸
       </div>
 
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
@@ -46,83 +48,136 @@ export function Navbar() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-              <nav className="flex flex-col gap-4 mt-8">
-                {mainCategories.map((cat) => (
-                  <div key={cat.id} className="space-y-2">
-                    <Link href={`/category/${cat.slug}`} className="text-lg font-bold">
-                      {cat.name}
-                    </Link>
-                    <div className="pl-4 flex flex-col gap-2">
-                      {getSubcategories(cat.id).map(sub => (
-                        <Link key={sub.id} href={`/category/${sub.slug}`} className="text-md text-muted-foreground">
-                          {sub.name}
+            <SheetContent side="left" className="w-[300px] p-0">
+              <div className="flex flex-col h-full">
+                <div className="p-4 border-b flex items-center justify-between">
+                  <span className="font-display text-2xl font-bold">Menu</span>
+                </div>
+                <nav className="flex-1 overflow-y-auto">
+                  <div className="p-4 space-y-4">
+                    {mainCategories.map((cat) => (
+                      <div key={cat.id} className="space-y-2">
+                        <Link href={`/category/${cat.slug}`} className="text-lg font-bold block border-b pb-2">
+                          {cat.name}
                         </Link>
-                      ))}
-                    </div>
+                        <div className="pl-4 flex flex-col gap-3 pt-2">
+                          {getSubcategories(cat.id).map(sub => (
+                            <div key={sub.id} className="space-y-1">
+                              <Link href={`/category/${sub.slug}`} className="text-md font-semibold text-primary">
+                                {sub.name}
+                              </Link>
+                              <div className="pl-4 flex flex-col gap-1">
+                                {getSubcategories(sub.id).map(type => (
+                                  <Link key={type.id} href={`/category/${type.slug}`} className="text-sm text-muted-foreground">
+                                    {type.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                {navLinks.map((link) => (
-                  <Link 
-                    key={link.name} 
-                    href={link.href}
-                    className="text-lg font-medium hover:text-primary transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </nav>
+                </nav>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
 
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
-          <span className="font-display text-3xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent cursor-pointer">
-            Spanko
+          <span className="font-display text-3xl font-bold tracking-tight text-[#00a9e0] hover:opacity-90 transition-opacity">
+            carter's
           </span>
         </Link>
 
         {/* Desktop Nav */}
         <NavigationMenu className="hidden md:flex">
-          <NavigationMenuList>
+          <NavigationMenuList className="gap-1">
             {mainCategories.map((cat) => {
-              const subs = getSubcategories(cat.id);
-              if (subs.length === 0) {
-                return (
-                  <NavigationMenuItem key={cat.id}>
-                    <NavigationMenuLink asChild>
-                      <Link href={`/category/${cat.slug}`} className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
-                        {cat.name}
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                );
-              }
-
+              const subcategories = getSubcategories(cat.id);
               return (
                 <NavigationMenuItem key={cat.id}>
-                  <NavigationMenuTrigger className="text-sm font-medium h-9 px-4 py-2">
+                  <NavigationMenuTrigger 
+                    className="text-[13px] font-bold uppercase tracking-tight h-16 bg-transparent hover:bg-transparent data-[state=open]:bg-transparent focus:bg-transparent rounded-none border-b-2 border-transparent data-[state=open]:border-[#00a9e0] transition-all"
+                    onMouseEnter={() => {
+                      setActiveParentId(cat.id);
+                      const firstSub = subcategories[0];
+                      if (firstSub) setActiveSubId(firstSub.id);
+                    }}
+                  >
                     {cat.name}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      {subs.map((sub) => (
-                        <li key={sub.id}>
-                          <NavigationMenuLink asChild>
-                            <Link
-                              href={`/category/${sub.slug}`}
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                            >
-                              <div className="text-sm font-bold leading-none">{sub.name}</div>
-                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                Explore {sub.name} collection
-                              </p>
-                            </Link>
-                          </NavigationMenuLink>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="flex w-[900px] h-[500px] bg-white shadow-2xl overflow-hidden">
+                      {/* Left Column: Subcategories */}
+                      <div className="w-[200px] border-r bg-slate-50 p-4 space-y-1 overflow-y-auto">
+                        <h4 className="text-[11px] font-bold text-muted-foreground uppercase mb-4 tracking-widest">{cat.name}</h4>
+                        {subcategories.map(sub => (
+                          <button
+                            key={sub.id}
+                            className={`w-full text-left px-3 py-2 rounded-md text-[13px] font-bold flex items-center justify-between transition-colors ${
+                              activeSubId === sub.id ? "bg-white text-[#00a9e0] shadow-sm" : "hover:bg-white/50 text-slate-700"
+                            }`}
+                            onMouseEnter={() => setActiveSubId(sub.id)}
+                            onClick={() => window.location.href = `/category/${sub.slug}`}
+                          >
+                            {sub.name}
+                            {activeSubId === sub.id && <ChevronRight className="h-3 w-3" />}
+                          </button>
+                        ))}
+                        <div className="pt-4 mt-4 border-t">
+                          <h4 className="text-[11px] font-bold text-muted-foreground uppercase mb-4 tracking-widest">Featured</h4>
+                          <button className="w-full text-left px-3 py-1 text-[13px] font-medium hover:text-[#00a9e0]">New Arrivals</button>
+                          <button className="w-full text-left px-3 py-1 text-[13px] font-medium hover:text-[#00a9e0]">Shop All</button>
+                        </div>
+                      </div>
+
+                      {/* Middle Column: Types */}
+                      <div className="flex-1 p-6 grid grid-cols-2 gap-8 overflow-y-auto">
+                        {activeSubId && (
+                          <>
+                            <div>
+                              <h4 className="text-[15px] font-bold text-slate-900 mb-4 border-b pb-2">
+                                {categories?.find(c => c.id === activeSubId)?.name}
+                              </h4>
+                              <div className="grid grid-cols-1 gap-1">
+                                {getSubcategories(activeSubId).map(type => (
+                                  <Link
+                                    key={type.id}
+                                    href={`/category/${type.slug}`}
+                                    className="text-[13px] text-slate-600 hover:text-[#00a9e0] hover:underline py-1"
+                                  >
+                                    {type.name}
+                                  </Link>
+                                ))}
+                                <Link
+                                  href={`/category/${categories?.find(c => c.id === activeSubId)?.slug}`}
+                                  className="text-[13px] font-bold text-[#00a9e0] hover:underline mt-4"
+                                >
+                                  Shop All {categories?.find(c => c.id === activeSubId)?.name}
+                                </Link>
+                              </div>
+                            </div>
+                            
+                            {/* Visual/Marketing Column */}
+                            <div className="relative rounded-xl overflow-hidden bg-slate-100 h-full max-h-[400px]">
+                              <img 
+                                src={categories?.find(c => c.id === activeSubId)?.image || "https://images.unsplash.com/photo-1596464716127-f9a0859b4bce?w=500&h=500&fit=crop"}
+                                alt="Category promo"
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex flex-col justify-end p-6">
+                                <h5 className="text-white font-display text-xl mb-2">New Arrivals</h5>
+                                <p className="text-white/80 text-xs mb-4">Discover the latest styles for the season.</p>
+                                <Button size="sm" variant="secondary" className="w-fit">Shop Now</Button>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               );
@@ -131,7 +186,7 @@ export function Navbar() {
             {navLinks.map((link) => (
               <NavigationMenuItem key={link.name}>
                 <NavigationMenuLink asChild>
-                  <Link href={link.href} className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                  <Link href={link.href} className="text-[13px] font-bold uppercase tracking-tight h-16 flex items-center px-4 hover:text-[#00a9e0] transition-colors">
                     {link.name}
                   </Link>
                 </NavigationMenuLink>
@@ -141,35 +196,27 @@ export function Navbar() {
         </NavigationMenu>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
-          <div className={`hidden md:flex items-center transition-all duration-300 ${isSearchOpen ? 'w-64' : 'w-auto'}`}>
-            {isSearchOpen ? (
-              <div className="relative w-full flex items-center">
-                <input 
-                  autoFocus
-                  placeholder="Search products..." 
-                  className="w-full pl-3 pr-10 py-1.5 text-sm rounded-full border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary/20"
-                  onBlur={() => setIsSearchOpen(false)}
-                />
-                <Search className="absolute right-3 h-4 w-4 text-muted-foreground" />
-              </div>
-            ) : (
-              <Button variant="ghost" size="icon" onClick={() => setIsSearchOpen(true)}>
-                <Search className="h-5 w-5" />
-              </Button>
-            )}
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center relative w-64">
+            <input 
+              placeholder="Find your product" 
+              className="w-full pl-4 pr-10 py-2 text-sm rounded-md border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#00a9e0]/20 focus:bg-white transition-all"
+            />
+            <Search className="absolute right-3 h-4 w-4 text-slate-400" />
           </div>
           
-          <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
-            <User className="h-5 w-5" />
-          </Button>
-          
-          <Button variant="ghost" size="icon" className="relative group">
-            <ShoppingBag className="h-5 w-5 group-hover:text-primary transition-colors" />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">
-              0
-            </span>
-          </Button>
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="text-slate-700 hover:text-[#00a9e0]">
+              <User className="h-5 w-5" />
+            </Button>
+            
+            <Button variant="ghost" size="icon" className="relative group text-slate-700 hover:text-[#00a9e0]">
+              <ShoppingBag className="h-5 w-5" />
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#e31837] text-[9px] font-bold text-white shadow-sm">
+                0
+              </span>
+            </Button>
+          </div>
         </div>
       </div>
     </header>
