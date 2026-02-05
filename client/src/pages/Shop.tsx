@@ -1,4 +1,4 @@
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProductCard } from "@/components/ProductCard";
@@ -136,7 +136,7 @@ export default function Shop() {
                   <h3 className="text-lg font-bold mb-2">No products found</h3>
                   <p className="text-muted-foreground">Try clearing your filters or checking back later.</p>
                   <Link href="/shop">
-                    <Button variant="link" className="mt-4">Clear Filters</Button>
+                    <Button variant="ghost" className="mt-4">Clear Filters</Button>
                   </Link>
                 </div>
               )}
