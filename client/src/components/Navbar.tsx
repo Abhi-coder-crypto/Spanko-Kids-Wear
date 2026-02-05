@@ -101,6 +101,17 @@ export function Navbar() {
           <NavigationMenuList className="gap-1">
             {mainCategories.map((cat) => {
               const subcategories = getSubcategories(cat.id);
+              if (subcategories.length === 0) {
+                return (
+                  <NavigationMenuItem key={cat.id}>
+                    <NavigationMenuLink asChild>
+                      <Link href={`/category/${cat.slug}`} className="text-[13px] font-bold uppercase tracking-tight h-16 flex items-center px-4 hover:text-[#00a9e0] transition-colors">
+                        {cat.name}
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                );
+              }
               return (
                 <NavigationMenuItem key={cat.id}>
                   <NavigationMenuTrigger 
@@ -128,14 +139,9 @@ export function Navbar() {
                             onClick={() => window.location.href = `/category/${sub.slug}`}
                           >
                             {sub.name}
-                            {activeSubId === sub.id && <ChevronRight className="h-3 w-3" />}
+                            {getSubcategories(sub.id).length > 0 && activeSubId === sub.id && <ChevronRight className="h-3 w-3" />}
                           </button>
                         ))}
-                        <div className="pt-4 mt-4 border-t">
-                          <h4 className="text-[11px] font-bold text-muted-foreground uppercase mb-4 tracking-widest">Featured</h4>
-                          <button className="w-full text-left px-3 py-1 text-[13px] font-medium hover:text-[#00a9e0]">New Arrivals</button>
-                          <button className="w-full text-left px-3 py-1 text-[13px] font-medium hover:text-[#00a9e0]">Shop All</button>
-                        </div>
                       </div>
 
                       {/* Middle Column: Types */}
@@ -147,15 +153,19 @@ export function Navbar() {
                                 {categories?.find(c => c.id === activeSubId)?.name}
                               </h4>
                               <div className="grid grid-cols-1 gap-1">
-                                {getSubcategories(activeSubId).map(type => (
-                                  <Link
-                                    key={type.id}
-                                    href={`/category/${type.slug}`}
-                                    className="text-[13px] text-slate-600 hover:text-[#00a9e0] hover:underline py-1"
-                                  >
-                                    {type.name}
-                                  </Link>
-                                ))}
+                                {getSubcategories(activeSubId).length > 0 ? (
+                                  getSubcategories(activeSubId).map(type => (
+                                    <Link
+                                      key={type.id}
+                                      href={`/category/${type.slug}`}
+                                      className="text-[13px] text-slate-600 hover:text-[#00a9e0] hover:underline py-1"
+                                    >
+                                      {type.name}
+                                    </Link>
+                                  ))
+                                ) : (
+                                  <p className="text-sm text-muted-foreground">No sub-items available.</p>
+                                )}
                                 <Link
                                   href={`/category/${categories?.find(c => c.id === activeSubId)?.slug}`}
                                   className="text-[13px] font-bold text-[#00a9e0] hover:underline mt-4"
