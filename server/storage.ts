@@ -66,6 +66,11 @@ export class MemStorage implements IStorage {
     return Array.from(this.categories.values());
   }
 
+  async clearCategories(): Promise<void> {
+    this.categories.clear();
+    this.categoryIdCounter = 1;
+  }
+
   async createCategory(category: InsertCategory): Promise<Category> {
     const id = this.categoryIdCounter++;
     const newCategory: Category = { ...category, id, parentId: category.parentId ?? null };

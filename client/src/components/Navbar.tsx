@@ -30,6 +30,9 @@ export function Navbar() {
   const navLinks = [
     { name: "Trending", href: "/shop?filter=trending" },
     { name: "Deals", href: "/deals" },
+    { name: "Best Seller", href: "/category/best-seller" },
+    { name: "Sale", href: "/category/sale" },
+    { name: "Festive Collection", href: "/category/festive" },
   ];
 
   return (
