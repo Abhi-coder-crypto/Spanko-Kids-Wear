@@ -27,11 +27,7 @@ export function Navbar() {
     return categories?.filter(c => c.parentId === parentId) || [];
   };
 
-  const navLinks = [
-    { name: "Best Seller", href: "/category/best-seller" },
-    { name: "Sale", href: "/category/sale" },
-    { name: "Festive Collection", href: "/category/festive" },
-  ];
+  const navLinks: any[] = [];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border/40">
