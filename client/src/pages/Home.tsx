@@ -14,10 +14,10 @@ export default function Home() {
   const { data: categories, isLoading: isCategoriesLoading } = useCategories();
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background w-full overflow-x-hidden">
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 w-full overflow-x-hidden">
         {/* HERO SECTION */}
         <section className="relative h-[600px] w-full overflow-hidden bg-[#f8f9fb]">
           <div className="container mx-auto px-4 h-full relative flex items-center">

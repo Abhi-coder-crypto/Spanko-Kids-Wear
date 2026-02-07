@@ -62,8 +62,8 @@
 }
 
 @layer base {
-  body {
-    @apply bg-background text-foreground antialiased;
+  html, body {
+    @apply bg-background text-foreground antialiased overflow-x-hidden w-full;
     font-family: var(--font-body);
   }
 
