@@ -28,8 +28,6 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { name: "Trending", href: "/shop?filter=trending" },
-    { name: "Deals", href: "/deals" },
     { name: "Best Seller", href: "/category/best-seller" },
     { name: "Sale", href: "/category/sale" },
     { name: "Festive Collection", href: "/category/festive" },
@@ -131,7 +129,6 @@ export function Navbar() {
                     <div className="flex w-[900px] h-[500px] bg-white shadow-2xl overflow-hidden">
                       {/* Left Column: Subcategories */}
                       <div className="w-[200px] border-r bg-slate-50 p-4 space-y-1 overflow-y-auto">
-                        <h4 className="text-[11px] font-bold text-muted-foreground uppercase mb-4 tracking-widest">{cat.name}</h4>
                         {subcategories.map(sub => (
                           <button
                             key={sub.id}
@@ -173,7 +170,7 @@ export function Navbar() {
                                   href={`/category/${categories?.find(c => c.id === activeSubId)?.slug}`}
                                   className="text-[13px] font-bold text-[#00a9e0] hover:underline mt-4"
                                 >
-                                  Shop All {categories?.find(c => c.id === activeSubId)?.name}
+                                  Shop All
                                 </Link>
                               </div>
                             </div>
